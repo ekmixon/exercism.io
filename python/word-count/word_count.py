@@ -21,13 +21,12 @@ def word_count(phrase):
         if needed_decode:
             if char.isalpha() is False and char.isnumeric() is False:
                 phrase[i] = ' '
-        else:
-            if char.isalpha() is False and unicode(char, 'utf-8').isnumeric() is False:
-                phrase[i] = ' '
+        elif char.isalpha() is False and unicode(char, 'utf-8').isnumeric() is False:
+            phrase[i] = ' '
 
     phrase = ''.join(phrase)
     phrase_list = phrase.split(' ')
-    print phrase_list
+    needed_decode = False
     word_count_dict = {}
     for word in phrase_list:
         # Unicode section
@@ -40,18 +39,13 @@ def word_count(phrase):
                     # else increase count
                 else:
                     word_count_dict[word] += 1
+        elif word.isalpha() is True or unicode(word, 'utf-8').isnumeric() is True:
+            # If the word isn't in the dict yet, add it
+            if word not in word_count_dict:
+                word_count_dict[word] = 1
+            # else increase count
             else:
-                continue
-        # Non-unicode section
+                word_count_dict[word] += 1
         else:
-            # Make sure the word is alphanumeric
-            if word.isalpha() is True or unicode(word, 'utf-8').isnumeric() is True:
-                # If the word isn't in the dict yet, add it
-                if word not in word_count_dict:
-                    word_count_dict[word] = 1
-                # else increase count
-                else:
-                    word_count_dict[word] += 1
-            else:
-                continue
+            continue
     return word_count_dict
